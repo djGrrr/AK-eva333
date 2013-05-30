@@ -1,0 +1,9 @@
+# Sample .pwclientrc file for the linux-pm project,
+# running on patchwork.kernel.org.
+#
+# Save this file to ~/.pwclientrc
+#
+[base]
+url: https://patchwork.kernel.org/xmlrpc/
+project: linux-pm
+
