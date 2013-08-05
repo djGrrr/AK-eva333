@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".101.JS"
+VER=".102.JS"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
@@ -20,7 +20,7 @@ echo
 
 DATE_START=$(date +"%s")
 
-make "semaphore_mako_defconfig"
+make "mako_ak_defconfig"
 
 INIT_DIR=${HOME}/android/AK-mako-ramdisk/ramdisk-4.2.2
 MODULES_DIR=${HOME}/android/AK-mako-ramdisk/cwm/system/lib/modules
