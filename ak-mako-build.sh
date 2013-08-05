@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".103.JS"
+VER=".104.JS"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
