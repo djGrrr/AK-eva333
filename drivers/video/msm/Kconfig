@@ -30,7 +30,7 @@ config FB_MSM_LOGO
 config FB_MSM_LOGO_ANIMATE
 	tristate "MSM Frame Animated Buffer Logo"
 	select FB_MSM_LOGO
-	default y
+	default n
 	---help---
 	  Show animated kernel logo during boot.
 
