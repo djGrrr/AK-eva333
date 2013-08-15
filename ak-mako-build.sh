@@ -3,7 +3,7 @@
 clear
 
 BASE_AK_VER="AK"
-VER=".126.JS"
+VER=".128.JS"
 AK_VER=$BASE_AK_VER$VER
 
 export LOCALVERSION="~"`echo $AK_VER`
@@ -22,14 +22,14 @@ DATE_START=$(date +"%s")
 
 make "mako_ak_defconfig"
 
-INIT_DIR=${HOME}/android/AK-ramdisk/ramdisk-4.3.x
-MODULES_DIR=${HOME}/android/AK-ramdisk/cwm/system/lib/modules
+INIT_DIR=${HOME}/android/AK-eva333-ramdisk/ramdisk-4.3.x
+MODULES_DIR=${HOME}/android/AK-eva333-ramdisk/cwm/system/lib/modules
 KERNEL_DIR=`pwd`
-OUTPUT_DIR=${HOME}/android/AK-ramdisk/zip
-CWM_DIR=${HOME}/android/AK-ramdisk/cwm
+OUTPUT_DIR=${HOME}/android/AK-eva333-ramdisk/zip
+CWM_DIR=${HOME}/android/AK-eva333-ramdisk/cwm
 ZIMAGE_DIR=${HOME}/android/AK-eva333/arch/arm/boot
 CWM_MOVE=/home/anarkia1976/Desktop/AK-Kernel
-RAM_DIR=${HOME}/android/AK-ramdisk
+RAM_DIR=${HOME}/android/AK-eva333-ramdisk
 
 echo
 echo "LOCALVERSION="$LOCALVERSION
