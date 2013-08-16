@@ -1633,11 +1633,11 @@ config MSM_CPUFREQ_LIMITER
 
 	  If in doubt, say N.
 
-config CPU_VOLTAGE_TABLE
-	bool "Enable CPU Voltage Table via sysfs for adjustements"
+config GPU_OVERCLOCK
+	bool "Enable GPU Overclocking option"
 	default n
 	help
-	  Krait User Votlage Control
+	  APQ8064 GPU overclocking 
 
 config MSM_AVS_HW
 	bool "Enable Adaptive Voltage Scaling (AVS)"
