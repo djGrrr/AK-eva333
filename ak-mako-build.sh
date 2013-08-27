@@ -10,7 +10,7 @@ clear
 
 # AK Kernel Version
 BASE_AK_VER="AK"
-VER=".201.JS"
+VER=".333.JSS"
 AK_VER=$BASE_AK_VER$VER
 
 # AK Variables
