@@ -34,13 +34,13 @@ MMUEXT		:= -nommu
 KBUILD_CFLAGS	+= $(call cc-option,-mno-unaligned-access)
 endif
 
-ifeq ($(CONFIG_FRAME_POINTER),y)
-KBUILD_CFLAGS	+=-fno-omit-frame-pointer -mapcs -mno-sched-prolog
-endif
+#ifeq ($(CONFIG_FRAME_POINTER),y)
+KBUILD_CFLAGS  +=-fomit-frame-pointer
+#endif
 
-ifeq ($(CONFIG_CC_STACKPROTECTOR),y)
-KBUILD_CFLAGS	+=-fstack-protector
-endif
+#ifeq ($(CONFIG_CC_STACKPROTECTOR),y)
+#KBUILD_CFLAGS	+=-fstack-protector
+#endif
 
 ifeq ($(CONFIG_CPU_BIG_ENDIAN),y)
 KBUILD_CPPFLAGS	+= -mbig-endian
@@ -98,9 +98,9 @@ else
 CFLAGS_ABI	:=$(call cc-option,-mapcs-32,-mabi=apcs-gnu) $(call cc-option,-mno-thumb-interwork,)
 endif
 
-ifeq ($(CONFIG_ARM_UNWIND),y)
-CFLAGS_ABI	+=-funwind-tables
-endif
+#ifeq ($(CONFIG_ARM_UNWIND),y)
+#CFLAGS_ABI	+=-funwind-tables
+#endif
 
 ifeq ($(CONFIG_THUMB2_KERNEL),y)
 AFLAGS_AUTOIT	:=$(call as-option,-Wa$(comma)-mimplicit-it=always,-Wa$(comma)-mauto-it)
@@ -255,8 +255,8 @@ core-y				+= arch/arm/net/
 core-y				+= arch/arm/crypto/
 core-y				+= $(machdirs) $(platdirs)
 
-drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
-core-y				+= arch/arm/perfmon/
+#drivers-$(CONFIG_OPROFILE)      += arch/arm/oprofile/
+#core-y				+= arch/arm/perfmon/
 
 libs-y				:= arch/arm/lib/ $(libs-y)
 
