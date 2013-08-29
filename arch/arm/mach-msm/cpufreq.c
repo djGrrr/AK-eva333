@@ -217,7 +217,7 @@ int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 EXPORT_SYMBOL(msm_cpufreq_set_freq_limits);
 
 #ifdef CONFIG_LOW_CPUCLOCKS
-#define LOW_CPUCLOCKS_FREQ_MIN 162000
+#define LOW_CPUCLOCKS_FREQ_MIN 384000
 #endif
 
 static int __cpuinit msm_cpufreq_init(struct cpufreq_policy *policy)
@@ -326,15 +326,6 @@ static void msm_cpu_early_suspend(struct early_suspend *h)
 	for_each_possible_cpu(cpu) {
 		mutex_lock(&per_cpu(cpufreq_suspend, cpu).suspend_mutex);
 		lmf_screen_state = false;
-		// put rest of the cores to sleep!
-		switch (num_online_cpus()) {
-		case 4:
-			cpu_down(3);
-		case 3:
-			cpu_down(2);
-		case 2:
-			cpu_down(1);
-		}
 		mutex_unlock(&per_cpu(cpufreq_suspend, cpu).suspend_mutex);
 	}
 #endif
