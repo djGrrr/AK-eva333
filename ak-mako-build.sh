@@ -82,7 +82,6 @@ find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 echo
 
 cd $INIT_DIR
-git reset --hard
 #find . | cpio -o -H newc | gzip -9 > ../initrd.img
 find . \( ! -regex '.*/\..*' \) | cpio -o -H newc -R root:root | xz --check=crc32 --lzma2=dict=8MiB > ../initrd.img
 
@@ -109,6 +108,9 @@ echo
 rm -rf $RAM_DIR/zImage
 rm -rf $RAM_DIR/initrd.img
 rm -rf $RAM_DIR/boot.img
+
+cd $INIT_DIR
+git reset --hard
 
 cd $KERNEL_DIR
 
