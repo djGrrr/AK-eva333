@@ -13,7 +13,9 @@ BASE_AK_VER="AK"
 VER=".666.JSS.10+.PURGATORY"
 AK_VER=$BASE_AK_VER$VER
 
+
 # AK Variables
+AK_VER="${AK_VER}-OTG"
 export LOCALVERSION="~"`echo $AK_VER`
 export CROSS_COMPILE=${HOME}/android/AK-linaro/4.8.2-2013.08.20130820/bin/arm-linux-gnueabihf-
 export ARCH=arm
@@ -47,7 +49,7 @@ KERNEL_DIR=`pwd`
 OUTPUT_DIR=${HOME}/android/AK-eva333-ramdisk/zip
 CWM_DIR=${HOME}/android/AK-eva333-ramdisk/cwm
 ZIMAGE_DIR=${HOME}/android/AK-eva333/arch/arm/boot
-CWM_MOVE=/home/anarkia1976/Desktop/AK-Kernel
+CWM_MOVE=${HOME}/android/AK
 RAM_DIR=${HOME}/android/AK-eva333-ramdisk
 
 echo -e "${red}"; echo "COMPILING VERSION:"; echo -e "${blink_red}"; echo "$LOCALVERSION"; echo -e "${restore}"
@@ -69,8 +71,7 @@ echo "-------------------------"
 echo -e "${restore}"
 
 make "mako_ak_defconfig"
-#make -j3 > /dev/null
-make -j3
+make -j6 > /dev/null
 
 echo -e "${green}"
 echo "-------------------------"
@@ -78,12 +79,13 @@ echo "Create: AK Kernel and Zip"
 echo "-------------------------"
 echo -e "${restore}"
 
+mkdir -p $MODULES_DIR 2> /dev/null
 rm `echo $MODULES_DIR"/*"`
 find $KERNEL_DIR -name '*.ko' -exec cp -v {} $MODULES_DIR \;
 echo
 
+chmod -R og-w $INIT_DIR
 cd $INIT_DIR
-#find . | cpio -o -H newc | gzip -9 > ../initrd.img
 find . \( ! -regex '.*/\..*' \) | cpio -o -H newc -R root:root | xz --check=crc32 --lzma2=dict=8MiB > ../initrd.img
 
 cd ../
