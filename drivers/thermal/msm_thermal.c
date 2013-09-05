@@ -25,13 +25,9 @@
 #include <linux/of.h>
 #include <mach/cpufreq.h>
 
-/*
- * Poll for temperature changes every 1 seconds.
- * It will scale based on the device temperature.
- */
-#define POLLING_DELAY 1000
+#define POLLING_DELAY 100
 
-unsigned int temp_threshold = 70;
+unsigned int temp_threshold = 60;
 module_param(temp_threshold, int, 0755);
 
 static int enabled;
