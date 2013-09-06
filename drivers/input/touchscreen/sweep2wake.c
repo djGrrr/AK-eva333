@@ -44,7 +44,7 @@
 extern bool is_single_touch(struct lge_touch_data *ts);
 
 /* Resources */
-int s2w_switch = 0;
+bool s2w_switch = false;
 unsigned int retry_cnt = 0;
 bool scr_suspended = false, exec_count = true;
 bool scr_on_touch = false, barrier[2] = {false, false};
@@ -58,25 +58,6 @@ static int s2w_threshold = DEFAULT_S2W_X_FINAL;
 //static int s2w_max_posn = DEFAULT_S2W_X_MAX;
 
 static int s2w_swap_coord = 0;
-
-#ifdef CONFIG_CMDLINE_OPTIONS
-/* Read cmdline for s2w */
-static int __init read_s2w_cmdline(char *s2w)
-{
-	if (strcmp(s2w, "1") == 0) {
-		printk(KERN_INFO "[cmdline_s2w]: Sweep2Wake enabled. | s2w='%s'", s2w);
-		s2w_switch = 1;
-	} else if (strcmp(s2w, "0") == 0) {
-		printk(KERN_INFO "[cmdline_s2w]: Sweep2Wake disabled. | s2w='%s'", s2w);
-		s2w_switch = 0;
-	} else {
-		printk(KERN_INFO "[cmdline_s2w]: No valid input found. Sweep2Wake disabled. | s2w='%s'", s2w);
-		s2w_switch = 0;
-	}
-	return 1;
-}
-__setup("s2w=", read_s2w_cmdline);
-#endif
 
 /* PowerKey setter */
 void sweep2wake_setdev(struct input_dev * input_device) {
@@ -128,7 +109,9 @@ void detect_sweep2wake(int sweep_coord, int sweep_height, struct lge_touch_data 
 	}
 
 	//power on
-	if ((single_touch) && (scr_suspended == true) && (s2w_switch > 0)) {
+	if (!single_touch && !s2w_switch)
+		return;
+	if (scr_suspended) {
 		prev_coord = 0;
 		next_coord = s2w_start_posn;
 		if ((barrier[0] == true) ||
@@ -154,7 +137,7 @@ void detect_sweep2wake(int sweep_coord, int sweep_height, struct lge_touch_data 
 			}
 		}
 	//power off
-	} else if ((single_touch) && (scr_suspended == false) && (s2w_switch > 0)) {
+	} else if (!scr_suspended) {
 		if (s2w_swap_coord == 1) {
 			//swap back for off scenario ONLY
 			swap_temp1 = sweep_coord;

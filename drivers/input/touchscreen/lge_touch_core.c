@@ -818,7 +818,7 @@ static void touch_input_report(struct lge_touch_data *ts)
 		else {
 			ts->ts_data.curr_data[id].state = 0;
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-                        if (s2w_switch > 0) {
+                        if (s2w_switch) {
                                 exec_count = true;
                                 barrier[0] = false;
                                 barrier[1] = false;
@@ -987,7 +987,7 @@ static void touch_fw_upgrade_func(struct work_struct *work_fw_upgrade)
 
 	if (!ts->curr_resume_state) {
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-                if (s2w_switch == 0)
+                if (!s2w_switch)
 #endif
                         touch_power_cntl(ts, POWER_OFF);
 	}
@@ -2193,9 +2193,8 @@ static void touch_early_suspend(struct early_suspend *h)
 	}
 
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-        if (s2w_switch == 0)
+        if (!s2w_switch) {
 #endif
-        {
 	        if (ts->pdata->role->operation_mode == INTERRUPT_MODE)
 		                disable_irq(ts->client->irq);
 	        else
@@ -2209,11 +2208,10 @@ static void touch_early_suspend(struct early_suspend *h)
 	        release_all_ts_event(ts);
 
 	        touch_power_cntl(ts, ts->pdata->role->suspend_pwr);
-        }
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-        else if (s2w_switch > 0) {
-		release_all_ts_event(ts);
-		enable_irq_wake(ts->client->irq);
+		} else {
+			enable_irq_wake(ts->client->irq);
+			release_all_ts_event(ts);
         }
 #endif
 }
@@ -2241,9 +2239,8 @@ static void touch_late_resume(struct early_suspend *h)
 	}
 
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-        if (s2w_switch == 0)
+        if (!s2w_switch) {
 #endif
-        {
 	        touch_power_cntl(ts, ts->pdata->role->resume_pwr);
 
 	        if (ts->pdata->role->operation_mode == INTERRUPT_MODE)
@@ -2258,9 +2255,8 @@ static void touch_late_resume(struct early_suspend *h)
 			        msecs_to_jiffies(ts->pdata->role->booting_delay));
 	        else
 		        queue_delayed_work(touch_wq, &ts->work_init, 0);
-        }
 #ifdef CONFIG_TOUCHSCREEN_SWEEP2WAKE
-        else if (s2w_switch > 0) {
+        } else {
                 disable_irq_wake(ts->client->irq);
 		/* Interrupt pin check after IC init - avoid Touch lockup */
 		if (ts->pdata->role->operation_mode == INTERRUPT_MODE) {
