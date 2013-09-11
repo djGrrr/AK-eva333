@@ -10,7 +10,7 @@ clear
 
 # AK Kernel Version
 BASE_AK_VER="AK"
-VER=".666.JWR.06+"
+VER=".666.JWR.10+.PURGATORY"
 AK_VER=$BASE_AK_VER$VER
 
 # AK Variables
