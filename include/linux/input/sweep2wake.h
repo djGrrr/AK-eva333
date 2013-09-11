@@ -30,6 +30,7 @@
 #define S2W_I2C_MAX_COUNT	20
 
 extern bool s2w_switch;
+extern bool wake_from_s2w;
 extern unsigned int retry_cnt;
 extern bool scr_suspended;
 extern bool scr_on_touch;
