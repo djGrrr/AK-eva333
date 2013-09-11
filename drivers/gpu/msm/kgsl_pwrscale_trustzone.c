@@ -29,6 +29,12 @@
 #ifdef CONFIG_MSM_KGSL_SIMPLE_GOV
 #include <linux/module.h>
 #endif
+#ifdef CONFIG_TOUCHSCREEN_LGE_BOOST
+#ifndef CONFIG_MSM_KGSL_SIMPLE_GOV
+#include <linux/module.h>
+#endif
+#include <linux/cpufreq.h>
+#endif
 
 #define TZ_GOVERNOR_PERFORMANCE 0
 #define TZ_GOVERNOR_ONDEMAND    1
@@ -208,6 +214,28 @@ static void tz_idle(struct kgsl_device *device, struct kgsl_pwrscale *pwrscale)
 	{
 		return;
 	}
+
+#ifdef CONFIG_TOUCHSCREEN_LGE_BOOST
+	// Jump to boost level
+	if(lge_boosted)
+	{
+		// calculate boost level
+		val = KGSL_MAX_PWRLEVELS - lge_boost_level - 2;
+
+		// check boost freq more than current freq
+		if(val < pwr->active_pwrlevel)
+		{
+			// check max limit
+			if(val < pwr->max_pwrlevel)
+				val = pwr->max_pwrlevel;
+
+			// boost freq
+			kgsl_pwrctrl_pwrlevel_change(device, val);
+
+			return;
+		}
+	}
+#endif
 
 	device->ftbl->power_stats(device, &stats);
 	priv->bin.total_time += stats.total_time;

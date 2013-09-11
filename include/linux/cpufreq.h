@@ -351,6 +351,10 @@ static inline unsigned int cpufreq_quick_get_max(unsigned int cpu)
  *                       CPUFREQ DEFAULT GOVERNOR                    *
  *********************************************************************/
 
+#ifdef CONFIG_TOUCHSCREEN_LGE_BOOST
+extern int lge_boosted;
+extern int lge_boost_level;
+#endif 
 
 /*
   Performance governor is fallback governor if any other gov failed to
