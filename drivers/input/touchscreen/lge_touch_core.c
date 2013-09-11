@@ -2164,6 +2164,9 @@ static int touch_probe(struct i2c_client *client,
 	ts->accuracy_filter.direction_count = one_sec / 6;
 	ts->accuracy_filter.touch_max_count = one_sec / 2;
 
+#ifdef CONFIG_TOUCHSCREEN_LGE_BOOST
+	setup_timer(&boost_timer, handle_boost, 0);
+#endif
         device_init_wakeup(&client->dev, true);
 
 #if defined(CONFIG_HAS_EARLYSUSPEND)
